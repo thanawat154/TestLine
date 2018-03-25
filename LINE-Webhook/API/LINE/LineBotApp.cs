@@ -16,12 +16,26 @@ namespace LINE_Webhook
         private LineMessagingClient messagingClient { get; }
         private TableStorage<EventSourceState> sourceState { get; }
         private BlobStorage blobStorage { get; }
+        private string merchantId { get; }
 
-        public LineBotApp(LineMessagingClient lineMessagingClient, TableStorage<EventSourceState> tableStorage, BlobStorage blobStorage)
+        public LineBotApp(string merId, TableStorage<EventSourceState> tableStorage, BlobStorage blobStorage)
         {
-            this.messagingClient = lineMessagingClient;
+            //TODO: need to detect channel access token in DB instead.
+            string channelAccessToken = "";
+            switch (merId)
+            {
+                case "1567098166":
+                    channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
+                    break;
+                case "":
+                    channelAccessToken = "";
+                    break;
+            }
+            
+            this.messagingClient = new LineMessagingClient(channelAccessToken);
             this.sourceState = tableStorage;
             this.blobStorage = blobStorage;
+            this.merchantId = merId;
         }
 
         #region Handlers

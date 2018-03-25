@@ -32,17 +32,18 @@ namespace LINE_Webhook.Controllers
         }
 
     
-        public async Task<HttpResponseMessage> WebHook(HttpRequestMessage request)
+        public async Task<HttpResponseMessage> WebHook(string merchantId, HttpRequestMessage request)
         {
+
             var events = await request.GetWebhookEventsAsync(channelSecret);
 
           
             var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
-            //var blobStorage = await BlobStorage.CreateAsync(connectionString, "linebotcontainer");
-            //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
+            var blobStorage = await BlobStorage.CreateAsync(connectionString, "linebotcontainer");
+            var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
 
-            //var app = new LineBotApp(lineMessagingClient, eventSourceState, blobStorage);
-            var app = new LineMsgApp(lineMessagingClient);
+            var app = new LineBotApp(merchantId, eventSourceState, blobStorage);
+            //var app = new LineMsgApp(lineMessagingClient);
             await app.RunAsync(events);
 
             return Request.CreateResponse(HttpStatusCode.OK);
