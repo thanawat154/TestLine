@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Line.Messaging.Webhooks;
+using LineServices.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -17,9 +19,14 @@ namespace LineServices
             return string.Format("You entered: {0}", value);
         }
 
-        public string SaveEvents(string str)
+        public decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
         {
-            return string.Empty;
+            decimal result = 0;
+            using (AccountContext ctx = new AccountContext())
+            {
+                result = ctx.SaveEvents(merchantId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
+            }
+            return result;
         }
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {

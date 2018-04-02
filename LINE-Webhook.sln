@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINE-Webhook", "LINE-Webhook\LINE-Webhook.csproj", "{7FA19C3A-0764-4479-B998-0E3E5F003F9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25049028-368D-453D-92EC-0DD4C918DB65} = {25049028-368D-453D-92EC-0DD4C918DB65}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LineServices", "LineServices\LineServices.csproj", "{25049028-368D-453D-92EC-0DD4C918DB65}"
 EndProject

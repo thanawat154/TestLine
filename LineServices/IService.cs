@@ -14,7 +14,7 @@ namespace LineServices
     {
 
         [OperationContract]
-        string GetData(int value);
+        decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);

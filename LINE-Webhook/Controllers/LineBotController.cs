@@ -41,7 +41,7 @@ namespace LINE_Webhook.Controllers
             switch (merchantId)
             {
                 case "1567098166":
-                    channelSecret = "";
+                    channelSecret = "9756bda3cef7ec92557e3ed86c347133";
                     channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
                     break;
             }

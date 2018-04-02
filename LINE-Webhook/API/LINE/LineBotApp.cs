@@ -14,7 +14,7 @@ namespace LINE_Webhook
     internal class LineBotApp : WebhookApplication
     {
         private LineMessagingClient messagingClient { get; }
-        //private TableStorage<EventSourceState> sourceState { get; }
+        private TableStorage<EventSourceState> sourceState { get; }
         private BlobStorage blobStorage { get; }
         private string merchantId { get; }
 
@@ -33,7 +33,8 @@ namespace LINE_Webhook
             switch (ev.Message.Type)
             {
                 case EventMessageType.Text:
-                    await HandleTextAsync(ev.ReplyToken, ((TextEventMessage)ev.Message).Text, ev.Source.UserId);
+                    //await HandleTextAsync(ev.ReplyToken, ((TextEventMessage)ev.Message).Text, ev.Source.UserId);
+                    await HandleTextAsync(ev);
                     break;
                 case EventMessageType.Image:
                 case EventMessageType.Audio:
@@ -127,6 +128,16 @@ namespace LINE_Webhook
         }
 
         #endregion
+
+        private async Task HandleTextAsync(MessageEvent ev)
+        {
+            //var replyMessage = new TextMessage(userMessage);
+            using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
+            {
+                await ws.SaveEventsAsync(merchantId, ev.Type.ToString(), ev.Source.Type.ToString(), ev.Source.Id.ToString(), ev.Source.Id.ToString(), ev.Message.Type.ToString(), ((TextEventMessage)ev.Message).Text, ev.ReplyToken);
+            }
+            //await messagingClient.ReplyMessageAsync(replyToken, new List<ISendMessage> { replyMessage });
+        }
 
         private async Task HandleTextAsync_bak(string replyToken, string userMessage, string userId)
         {
