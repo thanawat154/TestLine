@@ -14,26 +14,14 @@ namespace LINE_Webhook
     internal class LineBotApp : WebhookApplication
     {
         private LineMessagingClient messagingClient { get; }
-        private TableStorage<EventSourceState> sourceState { get; }
+        //private TableStorage<EventSourceState> sourceState { get; }
         private BlobStorage blobStorage { get; }
         private string merchantId { get; }
 
-        public LineBotApp(string merId, TableStorage<EventSourceState> tableStorage, BlobStorage blobStorage)
+        public LineBotApp(string merId, LineMessagingClient client, BlobStorage blobStorage)
         {
-            //TODO: need to detect channel access token in DB instead.
-            string channelAccessToken = "";
-            switch (merId)
-            {
-                case "1567098166":
-                    channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
-                    break;
-                case "":
-                    channelAccessToken = "";
-                    break;
-            }
-            
-            this.messagingClient = new LineMessagingClient(channelAccessToken);
-            this.sourceState = tableStorage;
+            this.messagingClient = client;
+            //this.sourceState = tableStorage;
             this.blobStorage = blobStorage;
             this.merchantId = merId;
         }
@@ -91,7 +79,7 @@ namespace LINE_Webhook
         protected override async Task OnFollowAsync(FollowEvent ev)
         {
             // Store source information which follows the bot.
-            await sourceState.AddAsync(ev.Source.Type.ToString(), ev.Source.Id);
+            //await sourceState.AddAsync(ev.Source.Type.ToString(), ev.Source.Id);
 
             var userName = "";
             if (!string.IsNullOrEmpty(ev.Source.Id))
@@ -106,7 +94,7 @@ namespace LINE_Webhook
         protected override async Task OnUnfollowAsync(UnfollowEvent ev)
         {
             // Remote source information which unfollows the bot.
-            await sourceState.DeleteAsync(ev.Source.Type.ToString(), ev.Source.Id);
+            //await sourceState.DeleteAsync(ev.Source.Type.ToString(), ev.Source.Id);
         }
 
         protected override async Task OnJoinAsync(JoinEvent ev)
@@ -116,7 +104,7 @@ namespace LINE_Webhook
 
         protected override async Task OnLeaveAsync(LeaveEvent ev)
         {
-            await sourceState.DeleteAsync(ev.Source.Type.ToString(), ev.Source.Id);
+            //await sourceState.DeleteAsync(ev.Source.Type.ToString(), ev.Source.Id);
         }
 
         protected override async Task OnBeaconAsync(BeaconEvent ev)
@@ -140,7 +128,7 @@ namespace LINE_Webhook
 
         #endregion
 
-        private async Task HandleTextAsync(string replyToken, string userMessage, string userId)
+        private async Task HandleTextAsync_bak(string replyToken, string userMessage, string userId)
         {
             userMessage = userMessage.ToLower().Replace(" ", "");
             ISendMessage replyMessage = null;
