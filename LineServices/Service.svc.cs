@@ -28,17 +28,17 @@ namespace LineServices
             }
             return result;
         }
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+
+        
+        public List<Friends> GetFriends(string merchantId)
         {
-            if (composite == null)
+            var friends = new List<Friends>();
+            using (AccountContext ctx = new AccountContext())
             {
-                throw new ArgumentNullException("composite");
+                friends = ctx.GetFriends(merchantId);
             }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
+
+            return friends;
         }
     }
 }

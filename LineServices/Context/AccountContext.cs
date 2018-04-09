@@ -44,5 +44,15 @@ namespace LineServices.Context
 
             return !string.IsNullOrEmpty(para[8].Value.ToString()) ? Convert.ToDecimal(para[8].Value) : 0;
         }
+
+        public List<Friends> GetFriends(string merchantId)
+        {
+            SqlParameter[] para = new SqlParameter[1];
+            para[0] = new SqlParameter("MerchantId", merchantId);
+
+            List<Friends> list = this.Database.SqlQuery<Friends>("sp_GetFriends @MerchantId", para).ToList<Friends>();
+
+            return list;
+        }
     }
 }

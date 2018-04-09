@@ -17,7 +17,7 @@ namespace LineServices
         decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
 
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        List<Friends> GetFriends(string merchantId);
 
         // TODO: Add your service operations here
     }
@@ -25,23 +25,18 @@ namespace LineServices
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]
-    public class CompositeType
+    public class Friends
     {
-        bool boolValue = true;
-        string stringValue = "Hello ";
 
         [DataMember]
-        public bool BoolValue
-        {
-            get { return boolValue; }
-            set { boolValue = value; }
-        }
-
+        public bool MerchantId { get; set; }
         [DataMember]
-        public string StringValue
-        {
-            get { return stringValue; }
-            set { stringValue = value; }
-        }
+        public string SourceId { get; set; }
+        [DataMember]
+        public string SourceType { get; set; }
+        [DataMember]
+        public string EventId { get; set; }
+        [DataMember]
+        public string MessageText { get; set; }
     }
 }

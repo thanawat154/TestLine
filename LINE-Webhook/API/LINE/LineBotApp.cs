@@ -2,6 +2,7 @@
 using Line.Messaging.Webhooks;
 using LINE_Webhook.CloudStorage;
 using LINE_Webhook.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,39 +19,55 @@ namespace LINE_Webhook
         private BlobStorage blobStorage { get; }
         private string merchantId { get; }
 
-        public LineBotApp(string merId, LineMessagingClient client, BlobStorage blobStorage)
+        public LineBotApp(string merId, LineMessagingClient client)
         {
             this.messagingClient = client;
             //this.sourceState = tableStorage;
-            this.blobStorage = blobStorage;
+            //this.blobStorage = blobStorage;
             this.merchantId = merId;
         }
 
         #region Handlers
 
         protected override async Task OnMessageAsync(MessageEvent ev)
-        {            
+        {
+            string json = JsonConvert.SerializeObject(ev);
+            string data = string.Empty;
             switch (ev.Message.Type)
             {
                 case EventMessageType.Text:
                     //await HandleTextAsync(ev.ReplyToken, ((TextEventMessage)ev.Message).Text, ev.Source.UserId);
-                    await HandleTextAsync(ev);
+                    //await HandleMessageAsync(ev);
+                    data = ((TextEventMessage)ev.Message).Text;
                     break;
                 case EventMessageType.Image:
                 case EventMessageType.Audio:
                 case EventMessageType.Video:
                 case EventMessageType.File:
                     // Prepare blob directory name for binary object.
-                    var blobDirectoryName = ev.Source.Type + "_" + ev.Source.Id;
-                    await HandleMediaAsync(ev.ReplyToken, ev.Message.Id, blobDirectoryName, ev.Message.Id);
+                    //var blobDirectoryName = ev.Source.Type + "_" + ev.Source.Id;
+                    //await HandleMediaAsync(ev.ReplyToken, ev.Message.Id, blobDirectoryName, ev.Message.Id);
+                    var stream = await messagingClient.GetContentStreamAsync(ev.Message.Id);
+                    var ext = GetFileExtension(stream.ContentHeaders.ContentType.MediaType);
+                    var uri = await blobStorage.UploadFromStreamAsync(stream, ev.Source.Type + "_" + ev.Source.Id, ev.Message.Id + ext);
+                    data = uri.ToString();
                     break;
                 case EventMessageType.Location:
                     var location = ((LocationEventMessage)ev.Message);
-                    await HandleLocationAsync(ev.ReplyToken, location);
+                    //await HandleLocationAsync(ev.ReplyToken, location);
+                    data = JsonConvert.SerializeObject(location);
                     break;
                 case EventMessageType.Sticker:
-                    await HandleStickerAsync(ev.ReplyToken);
+                    //await HandleStickerAsync(ev.ReplyToken);
+                    var sticker = (StickerEventMessage)ev.Message;
+                    data = JsonConvert.SerializeObject(sticker);
                     break;
+            }
+
+            //Save data in DB.
+            using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
+            {
+                await ws.SaveEventsAsync(merchantId, ev.Type.ToString(), ev.Source.Type.ToString(), ev.Source.Id.ToString(), ev.Source.Id.ToString(), ev.Message.Type.ToString(), json, ev.ReplyToken);
             }
         }
         
@@ -79,6 +96,7 @@ namespace LINE_Webhook
         
         protected override async Task OnFollowAsync(FollowEvent ev)
         {
+            string json = JsonConvert.SerializeObject(ev);
             // Store source information which follows the bot.
             //await sourceState.AddAsync(ev.Source.Type.ToString(), ev.Source.Id);
 
@@ -94,17 +112,20 @@ namespace LINE_Webhook
         
         protected override async Task OnUnfollowAsync(UnfollowEvent ev)
         {
+            string json = JsonConvert.SerializeObject(ev);
             // Remote source information which unfollows the bot.
             //await sourceState.DeleteAsync(ev.Source.Type.ToString(), ev.Source.Id);
         }
 
         protected override async Task OnJoinAsync(JoinEvent ev)
         {
+            string json = JsonConvert.SerializeObject(ev);
             await messagingClient.ReplyMessageAsync(ev.ReplyToken, $"Thank you for letting me join your {ev.Source.Type.ToString().ToLower()}!");
         }
 
         protected override async Task OnLeaveAsync(LeaveEvent ev)
         {
+            string json = JsonConvert.SerializeObject(ev);
             //await sourceState.DeleteAsync(ev.Source.Type.ToString(), ev.Source.Id);
         }
 
@@ -129,14 +150,16 @@ namespace LINE_Webhook
 
         #endregion
 
-        private async Task HandleTextAsync(MessageEvent ev)
+        private async Task HandleMessageAsync(MessageEvent ev)
         {
+
             //var replyMessage = new TextMessage(userMessage);
             using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
             {
                 await ws.SaveEventsAsync(merchantId, ev.Type.ToString(), ev.Source.Type.ToString(), ev.Source.Id.ToString(), ev.Source.Id.ToString(), ev.Message.Type.ToString(), ((TextEventMessage)ev.Message).Text, ev.ReplyToken);
             }
             //await messagingClient.ReplyMessageAsync(replyToken, new List<ISendMessage> { replyMessage });
+            
         }
 
         private async Task HandleTextAsync_bak(string replyToken, string userMessage, string userId)
@@ -275,6 +298,7 @@ namespace LINE_Webhook
             var stream = await messagingClient.GetContentStreamAsync(messageId);
             var ext = GetFileExtension(stream.ContentHeaders.ContentType.MediaType);
             var uri = await blobStorage.UploadFromStreamAsync(stream, blobDirectoryName, blobName + ext);
+
             await messagingClient.ReplyMessageAsync(replyToken, uri.ToString());
         }
 
