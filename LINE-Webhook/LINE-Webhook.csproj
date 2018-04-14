@@ -274,7 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Connected Services\LineServices\LINE_Webhook.LineServices.CompositeType.datasource">
+    <Content Include="Connected Services\LineServices\LINE_Webhook.LineServices.Friends.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Connected Services\LineServices\Service.disco" />

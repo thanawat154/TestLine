@@ -15,18 +15,27 @@ namespace LINE_Webhook.LineServices {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CompositeType", Namespace="http://schemas.datacontract.org/2004/07/LineServices")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Friends", Namespace="http://schemas.datacontract.org/2004/07/LineServices")]
     [System.SerializableAttribute()]
-    public partial class CompositeType : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Friends : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool BoolValueField;
+        private string EventIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string StringValueField;
+        private bool MerchantIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageTextField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SourceIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SourceTypeField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -39,27 +48,66 @@ namespace LINE_Webhook.LineServices {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool BoolValue {
+        public string EventId {
             get {
-                return this.BoolValueField;
+                return this.EventIdField;
             }
             set {
-                if ((this.BoolValueField.Equals(value) != true)) {
-                    this.BoolValueField = value;
-                    this.RaisePropertyChanged("BoolValue");
+                if ((object.ReferenceEquals(this.EventIdField, value) != true)) {
+                    this.EventIdField = value;
+                    this.RaisePropertyChanged("EventId");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string StringValue {
+        public bool MerchantId {
             get {
-                return this.StringValueField;
+                return this.MerchantIdField;
             }
             set {
-                if ((object.ReferenceEquals(this.StringValueField, value) != true)) {
-                    this.StringValueField = value;
-                    this.RaisePropertyChanged("StringValue");
+                if ((this.MerchantIdField.Equals(value) != true)) {
+                    this.MerchantIdField = value;
+                    this.RaisePropertyChanged("MerchantId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MessageText {
+            get {
+                return this.MessageTextField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageTextField, value) != true)) {
+                    this.MessageTextField = value;
+                    this.RaisePropertyChanged("MessageText");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SourceId {
+            get {
+                return this.SourceIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SourceIdField, value) != true)) {
+                    this.SourceIdField = value;
+                    this.RaisePropertyChanged("SourceId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SourceType {
+            get {
+                return this.SourceTypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SourceTypeField, value) != true)) {
+                    this.SourceTypeField = value;
+                    this.RaisePropertyChanged("SourceType");
                 }
             }
         }
@@ -84,11 +132,11 @@ namespace LINE_Webhook.LineServices {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SaveEvents", ReplyAction="http://tempuri.org/IService/SaveEventsResponse")]
         System.Threading.Tasks.Task<decimal> SaveEventsAsync(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService/GetDataUsingDataContractResponse")]
-        LINE_Webhook.LineServices.CompositeType GetDataUsingDataContract(LINE_Webhook.LineServices.CompositeType composite);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetFriends", ReplyAction="http://tempuri.org/IService/GetFriendsResponse")]
+        LINE_Webhook.LineServices.Friends[] GetFriends(string merchantId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService/GetDataUsingDataContractResponse")]
-        System.Threading.Tasks.Task<LINE_Webhook.LineServices.CompositeType> GetDataUsingDataContractAsync(LINE_Webhook.LineServices.CompositeType composite);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetFriends", ReplyAction="http://tempuri.org/IService/GetFriendsResponse")]
+        System.Threading.Tasks.Task<LINE_Webhook.LineServices.Friends[]> GetFriendsAsync(string merchantId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -126,12 +174,12 @@ namespace LINE_Webhook.LineServices {
             return base.Channel.SaveEventsAsync(merchantId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
         }
         
-        public LINE_Webhook.LineServices.CompositeType GetDataUsingDataContract(LINE_Webhook.LineServices.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContract(composite);
+        public LINE_Webhook.LineServices.Friends[] GetFriends(string merchantId) {
+            return base.Channel.GetFriends(merchantId);
         }
         
-        public System.Threading.Tasks.Task<LINE_Webhook.LineServices.CompositeType> GetDataUsingDataContractAsync(LINE_Webhook.LineServices.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContractAsync(composite);
+        public System.Threading.Tasks.Task<LINE_Webhook.LineServices.Friends[]> GetFriendsAsync(string merchantId) {
+            return base.Channel.GetFriendsAsync(merchantId);
         }
     }
 }

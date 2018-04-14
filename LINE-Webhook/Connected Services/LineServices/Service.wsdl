@@ -13,20 +13,20 @@
   <wsdl:message name="IService_SaveEvents_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveEventsResponse" />
   </wsdl:message>
-  <wsdl:message name="IService_GetDataUsingDataContract_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataUsingDataContract" />
+  <wsdl:message name="IService_GetFriends_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriends" />
   </wsdl:message>
-  <wsdl:message name="IService_GetDataUsingDataContract_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
+  <wsdl:message name="IService_GetFriends_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendsResponse" />
   </wsdl:message>
   <wsdl:portType name="IService">
     <wsdl:operation name="SaveEvents">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/SaveEvents" message="tns:IService_SaveEvents_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/SaveEventsResponse" message="tns:IService_SaveEvents_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetDataUsingDataContract">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetDataUsingDataContract" message="tns:IService_GetDataUsingDataContract_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetDataUsingDataContractResponse" message="tns:IService_GetDataUsingDataContract_OutputMessage" />
+    <wsdl:operation name="GetFriends">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetFriends" message="tns:IService_GetFriends_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetFriendsResponse" message="tns:IService_GetFriends_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
@@ -40,8 +40,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetDataUsingDataContract">
-      <soap:operation soapAction="http://tempuri.org/IService/GetDataUsingDataContract" style="document" />
+    <wsdl:operation name="GetFriends">
+      <soap:operation soapAction="http://tempuri.org/IService/GetFriends" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

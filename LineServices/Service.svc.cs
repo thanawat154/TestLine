@@ -14,11 +14,6 @@ namespace LineServices
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service : IService
     {
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
-
         public decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
         {
             decimal result = 0;
@@ -29,7 +24,6 @@ namespace LineServices
             return result;
         }
 
-        
         public List<Friends> GetFriends(string merchantId)
         {
             var friends = new List<Friends>();

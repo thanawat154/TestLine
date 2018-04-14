@@ -19,7 +19,6 @@ namespace LineServices
         [OperationContract]
         List<Friends> GetFriends(string merchantId);
 
-        // TODO: Add your service operations here
     }
 
 
