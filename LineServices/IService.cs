@@ -28,13 +28,13 @@ namespace LineServices
     {
 
         [DataMember]
-        public bool MerchantId { get; set; }
+        public string MerchantId { get; set; }
         [DataMember]
         public string SourceId { get; set; }
         [DataMember]
         public string SourceType { get; set; }
         [DataMember]
-        public string EventId { get; set; }
+        public Int64 EventId { get; set; }
         [DataMember]
         public string MessageText { get; set; }
     }

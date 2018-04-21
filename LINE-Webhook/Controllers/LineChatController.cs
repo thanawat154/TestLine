@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using LINE_Webhook.LineServices;
+using System.Web;
+using System.Web.Mvc;
 
 namespace LINE_Webhook.Controllers
 {
-    [RoutePrefix("api")]
-    public class LineChatController : ApiController
+    public class LineChatController : Controller
     {
-        public async Task<Friends[]> GetFriends(string merchantId)
+        // GET: LineChat
+        public ActionResult Index()
         {
-            using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
-            {
-                return await ws.GetFriendsAsync(merchantId);
-            }
+            return View();
         }
     }
 }

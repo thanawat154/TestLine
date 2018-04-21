@@ -50,6 +50,9 @@
     <Reference Include="Line.Messaging, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Line.Messaging.1.2.4\lib\netstandard1.3\Line.Messaging.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\..\_TFS\QNET Legacy\CPG\DEV\CPG_API\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.4\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
@@ -208,9 +211,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\LINE\LineBotApp.cs" />
-    <Compile Include="API\LINE\Reply.cs" />
-    <Compile Include="API\LINE\Signature.cs" />
+    <Compile Include="Class\DAO.cs" />
+    <Compile Include="Class\Json.cs" />
+    <Compile Include="Class\LineBotApp.cs" />
+    <Compile Include="Class\LineChat.cs" />
+    <Compile Include="Class\Reply.cs" />
+    <Compile Include="Class\Signature.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -245,6 +251,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Class\Logger.cs" />
     <Compile Include="CloudStorage\BlobStorage.cs" />
     <Compile Include="CloudStorage\TableStorage.cs" />
     <Compile Include="Connected Services\LineServices\Reference.cs">
@@ -256,10 +263,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineBotController.cs" />
     <Compile Include="Controllers\LineChatController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Filter\ApiFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Request.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EventSourceLocation.cs" />
@@ -354,10 +362,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\LineChat\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Class\" />
     <Folder Include="Views\Webhook\" />
   </ItemGroup>
   <ItemGroup>

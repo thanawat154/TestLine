@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var myFriends = $('#friends');
+        $.ajax({
+            type: 'GET',
+            url: 'api/LineBot/GetFriends',
+            dataType: 'json',
+            success: function (data) {
+                //alert("OK");
+                myFriends.empty();
+                $.each(data, function (index, val) {
+                    myFriends.append('<li>' + val.MessageText + '</li>');
+                });
+            }
+        });
+    });
+</script>
+
+<h2>My Friends</h2>
+<ul id="friends"></ul>
+
+
+
+
+
+

@@ -8,8 +8,8 @@
   <xs:element name="ArrayOfFriends" nillable="true" type="tns:ArrayOfFriends" />
   <xs:complexType name="Friends">
     <xs:sequence>
-      <xs:element minOccurs="0" name="EventId" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="MerchantId" type="xs:boolean" />
+      <xs:element minOccurs="0" name="EventId" type="xs:long" />
+      <xs:element minOccurs="0" name="MerchantId" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="MessageText" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SourceId" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SourceType" nillable="true" type="xs:string" />

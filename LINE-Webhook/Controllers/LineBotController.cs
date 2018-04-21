@@ -15,10 +15,15 @@ using System.Web;
 using System.Web.Http;
 using LINE_Webhook.CloudStorage;
 using LINE_Webhook.Models;
+using LINE_Webhook.Filter;
+using LINE_Webhook.Utilities;
+using System.Web.Http.Description;
+using LINE_Webhook.Helper;
 
 namespace LINE_Webhook.Controllers
 {
     [RoutePrefix("api")]
+    [ApiExceptionFilter]
     public class LineBotController : ApiController
     {
 
@@ -61,6 +66,28 @@ namespace LINE_Webhook.Controllers
             await app.RunAsync(events);
 
             return Request.CreateResponse(HttpStatusCode.OK);
-        }      
+        }
+
+        //[ResponseType(typeof(string))]
+        //[HttpPost]
+        public async Task<HttpResponseMessage> GetFriends()
+        {
+            try
+            {
+                //get credential from login session.
+                var merchantId = "1567098166";
+                var channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
+                var client = new LineMessagingClient(channelAccessToken);
+                return new HttpResponseMessage
+                {
+                    Content = new StringContent((await new LineChat().GetFriends(merchantId, client).JsonSerializeAsync()))
+                };
+
+            }
+            catch(Exception ex)
+            {
+                return PageRequest.Get_GenericError(ex);
+            }                           
+        }
     }
 }

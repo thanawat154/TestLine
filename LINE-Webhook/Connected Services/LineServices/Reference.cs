@@ -23,10 +23,10 @@ namespace LINE_Webhook.LineServices {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string EventIdField;
+        private long EventIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool MerchantIdField;
+        private string MerchantIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MessageTextField;
@@ -48,12 +48,12 @@ namespace LINE_Webhook.LineServices {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string EventId {
+        public long EventId {
             get {
                 return this.EventIdField;
             }
             set {
-                if ((object.ReferenceEquals(this.EventIdField, value) != true)) {
+                if ((this.EventIdField.Equals(value) != true)) {
                     this.EventIdField = value;
                     this.RaisePropertyChanged("EventId");
                 }
@@ -61,12 +61,12 @@ namespace LINE_Webhook.LineServices {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool MerchantId {
+        public string MerchantId {
             get {
                 return this.MerchantIdField;
             }
             set {
-                if ((this.MerchantIdField.Equals(value) != true)) {
+                if ((object.ReferenceEquals(this.MerchantIdField, value) != true)) {
                     this.MerchantIdField = value;
                     this.RaisePropertyChanged("MerchantId");
                 }
