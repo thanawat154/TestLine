@@ -1,8 +1,9 @@
 ﻿
 @{
+    Layout = "";
     ViewBag.Title = "Index";
 }
-
+<link href="~/Content/chat.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
 
@@ -13,18 +14,107 @@
             url: 'api/LineBot/GetFriends',
             dataType: 'json',
             success: function (data) {
-                //alert("OK");
-                myFriends.empty();
-                $.each(data, function (index, val) {
-                    myFriends.append('<li>' + val.MessageText + '</li>');
+                var arr = data.Result;
+                $.each(arr, function (ix) {
+                    var friend = '<div class="friend">';
+                    friend += '<img src="' + arr[ix].PictureUrl + '" />';
+                    friend += '<p>';
+                    friend += '<strong>' + arr[ix].DisplayName + '</strong>';
+                    friend += '<span>' + arr[ix].StatusMessage + '</span>';
+                    friend += '</p>';
+                    friend += '<div class="status available"></div>';
+                    friend += '</div>';
+
+                    $('#search').before(friend);
                 });
             }
         });
     });
 </script>
 
-<h2>My Friends</h2>
-<ul id="friends"></ul>
+<div id="chatbox">
+    <div id="friendslist">
+        <div id="topmenu">
+            <span class="friends"></span>
+            <span class="chats"></span>
+            <span class="history"></span>
+        </div>
+
+        <div id="friends">
+            <div id="search">
+                <input type="text" id="searchfield" value="Search contacts..." />
+            </div>
+        </div>
+
+    </div>
+
+    <div id="chatview" class="p1">
+        <div id="profile">
+            <div id="close">
+                <div class="cy"></div>
+                <div class="cx"></div>
+            </div>
+
+            <p>Miro Badev</p>
+            <span>miro@badev@gmail.com</span>
+        </div>
+        <div id="chat-messages">
+            <label>Thursday 02</label>
+
+            <div class="message">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                <div class="bubble">
+                    Really cool stuff!
+                    <div class="corner"></div>
+                    <span>3 min</span>
+                </div>
+            </div>
+
+            <div class="message right">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+                <div class="bubble">
+                    Can you share a link for the tutorial?
+                    <div class="corner"></div>
+                    <span>1 min</span>
+                </div>
+            </div>
+
+            <div class="message">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                <div class="bubble">
+                    Yeah, hold on
+                    <div class="corner"></div>
+                    <span>Now</span>
+                </div>
+            </div>
+
+            <div class="message right">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+                <div class="bubble">
+                    Can you share a link for the tutorial?
+                    <div class="corner"></div>
+                    <span>1 min</span>
+                </div>
+            </div>
+
+            <div class="message">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                <div class="bubble">
+                    Yeah, hold on
+                    <div class="corner"></div>
+                    <span>Now</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="sendmessage">
+            <input type="text" value="Send message..." />
+            <button id="send"></button>
+        </div>
+
+    </div>
+</div>
 
 
 

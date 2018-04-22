@@ -1,23 +1,12 @@
 ﻿using Line.Messaging.Webhooks;
 using Line.Messaging;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using LINE_Webhook.CloudStorage;
-using LINE_Webhook.Models;
 using LINE_Webhook.Filter;
 using LINE_Webhook.Utilities;
-using System.Web.Http.Description;
 using LINE_Webhook.Helper;
 
 namespace LINE_Webhook.Controllers
@@ -78,10 +67,12 @@ namespace LINE_Webhook.Controllers
                 var merchantId = "1567098166";
                 var channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
                 var client = new LineMessagingClient(channelAccessToken);
-                return new HttpResponseMessage
+                var ctn = new HttpResponseMessage
                 {
                     Content = new StringContent((await new LineChat().GetFriends(merchantId, client).JsonSerializeAsync()))
                 };
+
+                return ctn;
 
             }
             catch(Exception ex)
