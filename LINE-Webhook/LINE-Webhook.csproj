@@ -259,6 +259,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\ZortServices\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineBotController.cs" />
@@ -282,13 +287,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Connected Services\LineServices\LINE_Webhook.LineServices.Friends.datasource">
+    <Content Include="Connected Services\LineServices\LINE_Webhook.LineServices.Merchant.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Connected Services\LineServices\Service.disco" />
     <None Include="Connected Services\LineServices\configuration91.svcinfo" />
     <None Include="Connected Services\LineServices\configuration.svcinfo" />
     <None Include="Connected Services\LineServices\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\LineServices\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ZortServices\LineAtService.disco" />
+    <None Include="Connected Services\ZortServices\configuration91.svcinfo" />
+    <None Include="Connected Services\ZortServices\configuration.svcinfo" />
+    <None Include="Connected Services\ZortServices\LineAtService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ZortServices\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -329,13 +347,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Connected Services\LineServices\Service.wsdl" />
-    <None Include="Connected Services\LineServices\Service.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\LineServices\Service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LineServices\Service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ZortServices\LineAtService.wsdl" />
+    <None Include="Connected Services\ZortServices\LineAtService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ZortServices\LineAtService1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -387,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\LineServices\" />
+    <WCFMetadataStorage Include="Connected Services\ZortServices\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

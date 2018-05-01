@@ -19,11 +19,19 @@ namespace LINE_Webhook.Data
             }
         }
 
-        public static List<Friends> GetFriends(string merchantId)
+        //public static List<Friends> GetFriends(string merchantId)
+        //{
+        //    using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
+        //    {
+        //        return ws.GetFriends(merchantId).ToList();
+        //    }
+        //}
+
+        public static Merchant GetMerchant(string channelId, string zortId)
         {
             using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
             {
-                return ws.GetFriends(merchantId).ToList();
+                return ws.GetMerchant(channelId, zortId);
             }
         }
     }

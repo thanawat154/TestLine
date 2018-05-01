@@ -14,25 +14,42 @@ namespace LineServices
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service : IService
     {
-        public decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
+        public decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
         {
             decimal result = 0;
-            using (AccountContext ctx = new AccountContext())
+            using (LineContext ctx = new LineContext())
             {
-                result = ctx.SaveEvents(merchantId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
+                result = ctx.SaveEvents(channelId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
             }
             return result;
         }
 
-        public List<Friends> GetFriends(string merchantId)
+        //public List<Friends> GetChats(string merchantId)
+        //{
+        //    var friends = new List<Friends>();
+        //    using (AccountContext ctx = new AccountContext())
+        //    {
+        //        friends = ctx.GetFriends(merchantId);
+        //    }
+
+        //    return friends;
+        //}
+
+        public bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions)
         {
-            var friends = new List<Friends>();
-            using (AccountContext ctx = new AccountContext())
+
+            return true;
+        }
+
+        public Merchant GetMerchant(string channelId, string zortId)
+        {
+            var mer = new Merchant();
+            using (LineContext ctx = new LineContext())
             {
-                friends = ctx.GetFriends(merchantId);
+                mer = ctx.GetMerchant(channelId, zortId);
             }
 
-            return friends;
+            return mer;
         }
     }
 }

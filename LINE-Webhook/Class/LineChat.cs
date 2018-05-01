@@ -33,32 +33,37 @@ namespace LINE_Webhook
         //    return users;
         //}
 
-        public async Task<List<UserProfile>> GetFriends(string merId, LineMessagingClient client)
+        //public async Task<List<UserProfile>> GetFriends(string merId, LineMessagingClient client)
+        //{
+        //    this.messagingClient = client;
+        //    this.merchantId = merId;
+
+        //    List<UserProfile> users = new List<UserProfile>();
+        //    List<Friends> friends = DAO.GetFriends(merId);
+        //    foreach (Friends f in friends)
+        //    {
+        //        UserProfile user = await client.GetUserProfileAsync(f.SourceId);
+        //        var ev = JsonConvert.DeserializeObject<MessageEvent>(f.MessageText);
+        //        var lastMsg = string.Empty;
+        //        switch (ev.Message.Type)
+        //        {
+        //            case EventMessageType.Text:
+        //                lastMsg = "Hi";// ((TextEventMessage)ev.Message).Text;
+        //                break;
+        //            default:
+        //                lastMsg = user.DisplayName + " sent a " + ev.Message.Type.ToString().ToLower() + ".";
+        //                break;
+        //        }                
+
+        //        users.Add(new UserProfile() { UserId = user.UserId, DisplayName = user.DisplayName, PictureUrl = user.PictureUrl, StatusMessage = lastMsg });
+        //    }
+
+        //    return users;
+        //}
+
+        public Merchant GetMerchant(string channelId, string zortId)
         {
-            this.messagingClient = client;
-            this.merchantId = merId;
-
-            List<UserProfile> users = new List<UserProfile>();
-            List<Friends> friends = DAO.GetFriends(merId);
-            foreach (Friends f in friends)
-            {
-                UserProfile user = await client.GetUserProfileAsync(f.SourceId);
-                var ev = JsonConvert.DeserializeObject<MessageEvent>(f.MessageText);
-                var lastMsg = string.Empty;
-                switch (ev.Message.Type)
-                {
-                    case EventMessageType.Text:
-                        lastMsg = "Hi";// ((TextEventMessage)ev.Message).Text;
-                        break;
-                    default:
-                        lastMsg = user.DisplayName + " sent a " + ev.Message.Type.ToString().ToLower() + ".";
-                        break;
-                }                
-                
-                users.Add(new UserProfile() { UserId = user.UserId, DisplayName = user.DisplayName, PictureUrl = user.PictureUrl, StatusMessage = lastMsg });
-            }
-
-            return users;
+            return DAO.GetMerchant(channelId, zortId);
         }
     }
 }

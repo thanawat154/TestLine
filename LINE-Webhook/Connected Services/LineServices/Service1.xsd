@@ -4,7 +4,7 @@
   <xs:element name="SaveEvents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="channelId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="eventType" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="sourceType" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="sourceId" nillable="true" type="xs:string" />
@@ -22,17 +22,36 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetFriends">
+  <xs:element name="RegisterMerchant">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="channelId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="channelSecret" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="channelAccessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="descriptions" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetFriendsResponse">
+  <xs:element name="RegisterMerchantResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/LineServices" minOccurs="0" name="GetFriendsResult" nillable="true" type="q1:ArrayOfFriends" />
+        <xs:element minOccurs="0" name="RegisterMerchantResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMerchant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="channelId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="zortId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMerchantResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/LineServices" minOccurs="0" name="GetMerchantResult" nillable="true" type="q1:Merchant" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

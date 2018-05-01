@@ -15,27 +15,33 @@ namespace LINE_Webhook.LineServices {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Friends", Namespace="http://schemas.datacontract.org/2004/07/LineServices")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Merchant", Namespace="http://schemas.datacontract.org/2004/07/LineServices")]
     [System.SerializableAttribute()]
-    public partial class Friends : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Merchant : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long EventIdField;
+        private string ChannelAccessTokenField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MerchantIdField;
+        private string ChannelIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MessageTextField;
+        private string ChannelSecretField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string SourceIdField;
+        private string MerchantNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string SourceTypeField;
+        private string RemarkField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ZortIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -48,66 +54,92 @@ namespace LINE_Webhook.LineServices {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public long EventId {
+        public string ChannelAccessToken {
             get {
-                return this.EventIdField;
+                return this.ChannelAccessTokenField;
             }
             set {
-                if ((this.EventIdField.Equals(value) != true)) {
-                    this.EventIdField = value;
-                    this.RaisePropertyChanged("EventId");
+                if ((object.ReferenceEquals(this.ChannelAccessTokenField, value) != true)) {
+                    this.ChannelAccessTokenField = value;
+                    this.RaisePropertyChanged("ChannelAccessToken");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string MerchantId {
+        public string ChannelId {
             get {
-                return this.MerchantIdField;
+                return this.ChannelIdField;
             }
             set {
-                if ((object.ReferenceEquals(this.MerchantIdField, value) != true)) {
-                    this.MerchantIdField = value;
-                    this.RaisePropertyChanged("MerchantId");
+                if ((object.ReferenceEquals(this.ChannelIdField, value) != true)) {
+                    this.ChannelIdField = value;
+                    this.RaisePropertyChanged("ChannelId");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string MessageText {
+        public string ChannelSecret {
             get {
-                return this.MessageTextField;
+                return this.ChannelSecretField;
             }
             set {
-                if ((object.ReferenceEquals(this.MessageTextField, value) != true)) {
-                    this.MessageTextField = value;
-                    this.RaisePropertyChanged("MessageText");
+                if ((object.ReferenceEquals(this.ChannelSecretField, value) != true)) {
+                    this.ChannelSecretField = value;
+                    this.RaisePropertyChanged("ChannelSecret");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string SourceId {
+        public string MerchantName {
             get {
-                return this.SourceIdField;
+                return this.MerchantNameField;
             }
             set {
-                if ((object.ReferenceEquals(this.SourceIdField, value) != true)) {
-                    this.SourceIdField = value;
-                    this.RaisePropertyChanged("SourceId");
+                if ((object.ReferenceEquals(this.MerchantNameField, value) != true)) {
+                    this.MerchantNameField = value;
+                    this.RaisePropertyChanged("MerchantName");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string SourceType {
+        public string Remark {
             get {
-                return this.SourceTypeField;
+                return this.RemarkField;
             }
             set {
-                if ((object.ReferenceEquals(this.SourceTypeField, value) != true)) {
-                    this.SourceTypeField = value;
-                    this.RaisePropertyChanged("SourceType");
+                if ((object.ReferenceEquals(this.RemarkField, value) != true)) {
+                    this.RemarkField = value;
+                    this.RaisePropertyChanged("Remark");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserId {
+            get {
+                return this.UserIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserIdField, value) != true)) {
+                    this.UserIdField = value;
+                    this.RaisePropertyChanged("UserId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ZortId {
+            get {
+                return this.ZortIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ZortIdField, value) != true)) {
+                    this.ZortIdField = value;
+                    this.RaisePropertyChanged("ZortId");
                 }
             }
         }
@@ -127,16 +159,22 @@ namespace LINE_Webhook.LineServices {
     public interface IService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SaveEvents", ReplyAction="http://tempuri.org/IService/SaveEventsResponse")]
-        decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
+        decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SaveEvents", ReplyAction="http://tempuri.org/IService/SaveEventsResponse")]
-        System.Threading.Tasks.Task<decimal> SaveEventsAsync(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
+        System.Threading.Tasks.Task<decimal> SaveEventsAsync(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetFriends", ReplyAction="http://tempuri.org/IService/GetFriendsResponse")]
-        LINE_Webhook.LineServices.Friends[] GetFriends(string merchantId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RegisterMerchant", ReplyAction="http://tempuri.org/IService/RegisterMerchantResponse")]
+        bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetFriends", ReplyAction="http://tempuri.org/IService/GetFriendsResponse")]
-        System.Threading.Tasks.Task<LINE_Webhook.LineServices.Friends[]> GetFriendsAsync(string merchantId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RegisterMerchant", ReplyAction="http://tempuri.org/IService/RegisterMerchantResponse")]
+        System.Threading.Tasks.Task<bool> RegisterMerchantAsync(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetMerchant", ReplyAction="http://tempuri.org/IService/GetMerchantResponse")]
+        LINE_Webhook.LineServices.Merchant GetMerchant(string channelId, string zortId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetMerchant", ReplyAction="http://tempuri.org/IService/GetMerchantResponse")]
+        System.Threading.Tasks.Task<LINE_Webhook.LineServices.Merchant> GetMerchantAsync(string channelId, string zortId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -166,20 +204,28 @@ namespace LINE_Webhook.LineServices {
                 base(binding, remoteAddress) {
         }
         
-        public decimal SaveEvents(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
-            return base.Channel.SaveEvents(merchantId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
+        public decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
+            return base.Channel.SaveEvents(channelId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
         }
         
-        public System.Threading.Tasks.Task<decimal> SaveEventsAsync(string merchantId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
-            return base.Channel.SaveEventsAsync(merchantId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
+        public System.Threading.Tasks.Task<decimal> SaveEventsAsync(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
+            return base.Channel.SaveEventsAsync(channelId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
         }
         
-        public LINE_Webhook.LineServices.Friends[] GetFriends(string merchantId) {
-            return base.Channel.GetFriends(merchantId);
+        public bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions) {
+            return base.Channel.RegisterMerchant(merchantId, channelId, channelSecret, channelAccessToken, descriptions);
         }
         
-        public System.Threading.Tasks.Task<LINE_Webhook.LineServices.Friends[]> GetFriendsAsync(string merchantId) {
-            return base.Channel.GetFriendsAsync(merchantId);
+        public System.Threading.Tasks.Task<bool> RegisterMerchantAsync(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions) {
+            return base.Channel.RegisterMerchantAsync(merchantId, channelId, channelSecret, channelAccessToken, descriptions);
+        }
+        
+        public LINE_Webhook.LineServices.Merchant GetMerchant(string channelId, string zortId) {
+            return base.Channel.GetMerchant(channelId, zortId);
+        }
+        
+        public System.Threading.Tasks.Task<LINE_Webhook.LineServices.Merchant> GetMerchantAsync(string channelId, string zortId) {
+            return base.Channel.GetMerchantAsync(channelId, zortId);
         }
     }
 }

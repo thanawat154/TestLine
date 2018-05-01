@@ -8,6 +8,9 @@ using System.Web.Http;
 using LINE_Webhook.Filter;
 using LINE_Webhook.Utilities;
 using LINE_Webhook.Helper;
+using LINE_Webhook.Logging;
+using System.Configuration;
+using LINE_Webhook.CloudStorage;
 
 namespace LINE_Webhook.Controllers
 {
@@ -26,59 +29,55 @@ namespace LINE_Webhook.Controllers
         }
 
     
-        public async Task<HttpResponseMessage> WebHook(string merchantId, HttpRequestMessage request)
+        public async Task<HttpResponseMessage> WebHook(string merchantId, string channelId, HttpRequestMessage request)
         {
-            //TODO: need to detect channel access token in DB instead with Async.
-            string channelSecret = "";
-            string channelAccessToken = "";
-            
-            switch (merchantId)
+            var mer = new LineServices.Merchant();
+            using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
             {
-                case "1567098166":
-                    channelSecret = "9756bda3cef7ec92557e3ed86c347133";
-                    channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
-                    break;
+                mer = await ws.GetMerchantAsync(channelId, merchantId);
             }
 
-            if (string.IsNullOrEmpty(channelSecret) || string.IsNullOrEmpty(channelAccessToken))
+            if (!string.IsNullOrEmpty(mer.ChannelId) && !string.IsNullOrEmpty(mer.ChannelSecret) && !string.IsNullOrEmpty(mer.ChannelAccessToken))
             {
+                var events = await request.GetWebhookEventsAsync(mer.ChannelSecret);
+                var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+                var blobStorage = await BlobStorage.CreateAsync(connectionString, "linecontainer");
+                //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
+                var client = new LineMessagingClient(mer.ChannelAccessToken);
+                var app = new LineBotApp(mer.ZortId, mer.ChannelId, client, blobStorage);
+                await app.RunAsync(events);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                Logger.LogError("Invalid merchant info!: ChannelId="+ mer.ChannelId);
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-
-            var events = await request.GetWebhookEventsAsync(channelSecret);
-            //var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
-            //var blobStorage = await BlobStorage.CreateAsync(connectionString, "linebotcontainer");
-            //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
-            var client = new LineMessagingClient(channelAccessToken);
-            var app = new LineBotApp(merchantId, client);
-            //var app = new LineMsgApp(lineMessagingClient);
-            await app.RunAsync(events);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        //[ResponseType(typeof(string))]
-        //[HttpPost]
-        public async Task<HttpResponseMessage> GetFriends()
-        {
-            try
-            {
-                //get credential from login session.
-                var merchantId = "1567098166";
-                var channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
-                var client = new LineMessagingClient(channelAccessToken);
-                var ctn = new HttpResponseMessage
-                {
-                    Content = new StringContent((await new LineChat().GetFriends(merchantId, client).JsonSerializeAsync()))
-                };
+        ////[ResponseType(typeof(string))]
+        ////[HttpPost]
+        //public async Task<HttpResponseMessage> GetFriends()
+        //{
+        //    try
+        //    {
+        //        //get credential from login session.
+        //        var merchantId = "1567098166";
+        //        var channelAccessToken = "FT1trntaKs5+hEAG9Bj+3ispLhNSNBxk1RO9w9q5kDQEumXe5r4Nbqj9UB2RynlYtNCv6sWLR+Atk2KU/91AfzidbqfBk08NaRYtuaprfOi6QYNxWe58tHXzDvnOs1qNn2s+YQ9bEshpiZaJpyFkAAdB04t89/1O/w1cDnyilFU=";
+        //        var client = new LineMessagingClient(channelAccessToken);
+        //        var ctn = new HttpResponseMessage
+        //        {
+        //            Content = new StringContent((await new LineChat().GetFriends(merchantId, client).JsonSerializeAsync()))
+        //        };
 
-                return ctn;
+        //        return ctn;
 
-            }
-            catch(Exception ex)
-            {
-                return PageRequest.Get_GenericError(ex);
-            }                           
-        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return PageRequest.Get_GenericError(ex);
+        //    }                           
+        //}
     }
 }

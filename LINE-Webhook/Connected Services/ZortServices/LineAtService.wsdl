@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="LineAtService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpsBinding_ILineAtService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://zortdevservice.azurewebsites.net/LineAtService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://zortdevservice.azurewebsites.net/LineAtService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://zortdevservice.azurewebsites.net/LineAtService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ZortService" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILineAtService_FollowFriend_InputMessage">
+    <wsdl:part name="parameters" element="tns:FollowFriend" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_FollowFriend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FollowFriendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_UnFollowFriend_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnFollowFriend" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_UnFollowFriend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnFollowFriendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddMessage_Picture_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage_Picture" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddMessage_Picture_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage_PictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddMessage_Location_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage_Location" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddMessage_Location_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage_LocationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ILineAtService">
+    <wsdl:operation name="FollowFriend">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/FollowFriend" message="tns:ILineAtService_FollowFriend_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/FollowFriendResponse" message="tns:ILineAtService_FollowFriend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnFollowFriend">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/UnFollowFriend" message="tns:ILineAtService_UnFollowFriend_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/UnFollowFriendResponse" message="tns:ILineAtService_UnFollowFriend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage" message="tns:ILineAtService_AddMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessageResponse" message="tns:ILineAtService_AddMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage_Picture">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_Picture" message="tns:ILineAtService_AddMessage_Picture_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_PictureResponse" message="tns:ILineAtService_AddMessage_Picture_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage_Location">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_Location" message="tns:ILineAtService_AddMessage_Location_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_LocationResponse" message="tns:ILineAtService_AddMessage_Location_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ILineAtService" type="tns:ILineAtService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FollowFriend">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/FollowFriend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnFollowFriend">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/UnFollowFriend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage_Picture">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Picture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage_Location">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Location" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpsBinding_ILineAtService" type="tns:ILineAtService">
+    <wsp:PolicyReference URI="#BasicHttpsBinding_ILineAtService_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FollowFriend">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/FollowFriend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnFollowFriend">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/UnFollowFriend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage_Picture">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Picture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage_Location">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Location" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LineAtService">
+    <wsdl:port name="BasicHttpBinding_ILineAtService" binding="tns:BasicHttpBinding_ILineAtService">
+      <soap:address location="http://zortdevservice.azurewebsites.net/LineAtService.svc" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpsBinding_ILineAtService" binding="tns:BasicHttpsBinding_ILineAtService">
+      <soap:address location="https://devservice.zortout.com/LineAtService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
