@@ -11,6 +11,7 @@ using LINE_Webhook.Helper;
 using LINE_Webhook.Logging;
 using System.Configuration;
 using LINE_Webhook.CloudStorage;
+using LINE_Webhook.ZortServices;
 
 namespace LINE_Webhook.Controllers
 {
@@ -37,14 +38,20 @@ namespace LINE_Webhook.Controllers
                 mer = await ws.GetMerchantAsync(channelId, merchantId);
             }
 
-            if (!string.IsNullOrEmpty(mer.ChannelId) && !string.IsNullOrEmpty(mer.ChannelSecret) && !string.IsNullOrEmpty(mer.ChannelAccessToken))
+            if (!string.IsNullOrEmpty(mer.ChannelId) && !string.IsNullOrEmpty(mer.ZortId) && !string.IsNullOrEmpty(mer.ChannelSecret) && !string.IsNullOrEmpty(mer.ChannelAccessToken))
             {
                 var events = await request.GetWebhookEventsAsync(mer.ChannelSecret);
                 var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
                 var blobStorage = await BlobStorage.CreateAsync(connectionString, "linecontainer");
                 //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
                 var client = new LineMessagingClient(mer.ChannelAccessToken);
-                var app = new LineBotApp(mer.ZortId, mer.ChannelId, client, blobStorage);
+                var merInfo = new LineIntegrationModel {
+                    channel_id = mer.ChannelId//,
+                    //channel_secret = mer.ChannelSecret,
+                    //channel_accesstoken = mer.ChannelAccessToken
+                };
+
+                var app = new LineBotApp(merInfo, client, blobStorage);
                 await app.RunAsync(events);
 
                 return Request.CreateResponse(HttpStatusCode.OK);

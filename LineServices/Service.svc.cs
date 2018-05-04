@@ -14,9 +14,9 @@ namespace LineServices
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service : IService
     {
-        public decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
+        public long SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
         {
-            decimal result = 0;
+            long result = 0;
             using (LineContext ctx = new LineContext())
             {
                 result = ctx.SaveEvents(channelId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
@@ -35,10 +35,12 @@ namespace LineServices
         //    return friends;
         //}
 
-        public bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions)
+        public bool RegisterMerchant(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark)
         {
-
-            return true;
+            using (LineContext ctx = new LineContext())
+            {
+                return ctx.RegisterMerchant(channelId, zortId, userId, merchantName, channelSecret, channelAccessToken, remark);
+            }               
         }
 
         public Merchant GetMerchant(string channelId, string zortId)

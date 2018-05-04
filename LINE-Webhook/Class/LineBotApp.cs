@@ -2,6 +2,7 @@
 using Line.Messaging.Webhooks;
 using LINE_Webhook.CloudStorage;
 using LINE_Webhook.Models;
+using LINE_Webhook.ZortServices;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,14 @@ namespace LINE_Webhook
     internal class LineBotApp : WebhookApplication
     {
         private LineMessagingClient messagingClient { get; }
-        //private TableStorage<EventSourceState> sourceState { get; }
         private BlobStorage blobStorage { get; }
-        private string merchantId { get; }
-        private string channelId { get; }
+        private LineIntegrationModel merInfo { get; }
 
-        public LineBotApp(string merId, string channelId, LineMessagingClient client, BlobStorage blob)
+        public LineBotApp(LineIntegrationModel mer, LineMessagingClient client, BlobStorage blob)
         {
             this.messagingClient = client;
-            //this.sourceState = tableStorage;
             this.blobStorage = blob;
-            this.merchantId = merId;
-            this.channelId = channelId;
+            this.merInfo = mer;
         }
 
         #region Handlers
@@ -34,45 +31,44 @@ namespace LINE_Webhook
         protected override async Task OnMessageAsync(MessageEvent ev)
         {
             string json = JsonConvert.SerializeObject(ev);
-            string data = string.Empty;
-            switch (ev.Message.Type)
-            {
-                case EventMessageType.Text:
-                    await HandleTextAsync(ev.ReplyToken, ev.Source.UserId, ((TextEventMessage)ev.Message).Text);
-                    //await HandleMessageAsync(ev);
-                    //data = ((TextEventMessage)ev.Message).Text;
-                    break;
-                case EventMessageType.Image:
-                case EventMessageType.Audio:
-                case EventMessageType.Video:
-                case EventMessageType.File:
-                    // Prepare blob directory name for binary object.
-                    var path = channelId + "_" + ev.Source.Type + "_" + ev.Source.Id;
-                    await HandleMediaAsync(ev.ReplyToken, ev.Source.UserId, ev.Message.Id, ev.Message.Type.ToString(), path);
-                    //var stream = await messagingClient.GetContentStreamAsync(ev.Message.Id);
-                    //var ext = GetFileExtension(stream.ContentHeaders.ContentType.MediaType);
-                    //var uri = await blobStorage.UploadFromStreamAsync(stream, ev.Source.Type + "_" + ev.Source.Id, ev.Message.Id + ext);
-                    //data = uri.ToString();
-                    break;
-                case EventMessageType.Location:
-                    var location = ((LocationEventMessage)ev.Message);
-                    await HandleLocationAsync(ev.ReplyToken, ev.Source.UserId, location);
-                    //data = JsonConvert.SerializeObject(location);
-                    break;
-                case EventMessageType.Sticker:
-                    var sticker = (StickerEventMessage)ev.Message;
-                    await HandleStickerAsync(ev.ReplyToken, ev.Source.UserId, sticker);
-                    
-                    //data = JsonConvert.SerializeObject(sticker);
-                    break;
-            }
-
-            //Save data in DB.
+            //Save raw data in AutoBot DB.
             using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
             {
-                await ws.SaveEventsAsync(merchantId, ev.Type.ToString(), ev.Source.Type.ToString(), ev.Source.Id.ToString(), ev.Source.Id.ToString(), ev.Message.Type.ToString(), json, ev.ReplyToken);
+                merInfo.eventid = await ws.SaveEventsAsync(merInfo.channel_id, ev.Type.ToString(), ev.Source.Type.ToString(), ev.Source.Id.ToString(), ev.Source.Id.ToString(), ev.Message.Type.ToString(), json, ev.ReplyToken);
             }
 
+            UserProfile uInfo = await messagingClient.GetUserProfileAsync(ev.Source.UserId);
+            //using (ZortServices.LineAtServiceClient zort = new ZortServices.LineAtServiceClient())
+            //{                
+                switch (ev.Message.Type)
+                {
+                    case EventMessageType.Text:
+                        //await zort.AddMessageAsync(ev.Source.UserId, uInfo.DisplayName, ((TextEventMessage)ev.Message).Text, ev.ReplyToken, merInfo);
+                        await messagingClient.ReplyMessageAsync(ev.ReplyToken, new List<ISendMessage> { new TextMessage(((TextEventMessage)ev.Message).Text) });
+                        break;
+                    case EventMessageType.Image:
+                    case EventMessageType.Audio:
+                    case EventMessageType.Video:
+                    case EventMessageType.File:
+                        // Prepare blob directory name for binary object.
+                        var path = merInfo.channel_id + "_" + ev.Source.Type + "_" + ev.Source.Id;
+                        var stream = await messagingClient.GetContentStreamAsync(ev.Message.Id);
+                        var ext = GetFileExtension(stream.ContentHeaders.ContentType.MediaType);
+                        var uri = await blobStorage.UploadFromStreamAsync(stream, path, ev.Message.Id + ext);
+                        //await zort.AddMessage_PictureAsync(ev.Source.UserId, uInfo.DisplayName, ev.Message.Type.ToString(), uri.ToString(), ev.ReplyToken, merInfo);
+                        await messagingClient.ReplyMessageAsync(ev.ReplyToken, new List<ISendMessage> { new TextMessage(uri.ToString()) });
+                        break;
+                    case EventMessageType.Location:
+                        var location = ((LocationEventMessage)ev.Message);
+                        //await zort.AddMessage_LocationAsync(ev.Source.UserId, uInfo.DisplayName, location.Address, location.Latitude.ToString(), location.Longitude.ToString(), ev.ReplyToken, merInfo);
+                        await HandleLocationAsync(ev.ReplyToken, ev.Source.UserId, location);
+                        break;
+                    case EventMessageType.Sticker:
+                        var sticker = (StickerEventMessage)ev.Message;
+                        await HandleStickerAsync(ev.ReplyToken, ev.Source.UserId, sticker);
+                        break;
+                }
+            //}
         }
         
         protected override async Task OnPostbackAsync(PostbackEvent ev)
@@ -154,23 +150,21 @@ namespace LINE_Webhook
 
         #endregion
 
-        private async Task HandleMessageAsync(MessageEvent ev)
+        private async Task HandleLocationAsync(string replyToken, string userId, LocationEventMessage location)
         {
-
-            //var replyMessage = new TextMessage(userMessage);
-            using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
+            await messagingClient.ReplyMessageAsync(replyToken, new[]
             {
-                await ws.SaveEventsAsync(merchantId, ev.Type.ToString(), ev.Source.Type.ToString(), ev.Source.Id.ToString(), ev.Source.Id.ToString(), ev.Message.Type.ToString(), ((TextEventMessage)ev.Message).Text, ev.ReplyToken);
-            }
-            //await messagingClient.ReplyMessageAsync(replyToken, new List<ISendMessage> { replyMessage });
-            
+                new LocationMessage("Location", location.Address,location.Latitude, location.Longitude)
+            });
         }
-
-        private async Task HandleTextAsync(string replyToken, string userId, string userMessage)
+        private async Task HandleTextAsync(long evId, string userId, string displayName, MessageEvent ev, ZortServices.LineIntegrationModel line)
         {
-            userMessage = userMessage.ToLower().Replace(" ", "");
+            var userMessage = ((TextEventMessage)ev.Message).Text;
+            var keyword = userMessage.ToLower().Replace(" ", "");
             ISendMessage replyMessage = null;
-            if (userMessage == "buttons")
+
+            #region "BOT keyword"
+            if (keyword == "buttons")
             {
                 replyMessage = new TemplateMessage("Button Template",
                     new ButtonsTemplate(text:"ButtonsTemplate", title:"Click Buttons.",
@@ -180,7 +174,7 @@ namespace LINE_Webhook
                     new UriTemplateAction("Uri Label", "https://github.com/kenakamu")
                     }));
             }
-            else if (userMessage == "confirm")
+            else if (keyword == "confirm")
             {
                 replyMessage = new TemplateMessage("Confirm Template",
                     new ConfirmTemplate("ConfirmTemplate", new List<ITemplateAction> {
@@ -188,7 +182,7 @@ namespace LINE_Webhook
                         new MessageTemplateAction("No", "No")
                     }));
             }
-            else if (userMessage == "carousel")
+            else if (keyword == "carousel")
             {
                 List<ITemplateAction> actions1 = new List<ITemplateAction>();
                 List<ITemplateAction> actions2 = new List<ITemplateAction>();
@@ -214,7 +208,7 @@ namespace LINE_Webhook
                         "Casousel 1 Title", actions2)
                     }));
             }
-            else if (userMessage == "imagecarousel")
+            else if (keyword == "imagecarousel")
             {
                 UriTemplateAction action = new UriTemplateAction("Uri Label", "https://github.com/kenakamu");
 
@@ -227,7 +221,7 @@ namespace LINE_Webhook
                         new ImageCarouselColumn("https://github.com/apple-touch-icon.png", action)
                     }));
             }
-            else if (userMessage == "imagemap")
+            else if (keyword == "imagemap")
             {
                 var url = HttpContext.Current.Request.Url;
                 var imageUrl = $"{url.Scheme}://{url.Host}:{url.Port}/images/githubicon";
@@ -240,7 +234,7 @@ namespace LINE_Webhook
                         new MessageImagemapAction(new ImagemapArea(520, 0, 520, 1040), "I love LINE!")
                     });
             }
-            else if (userMessage == "addrichmenu")
+            else if (keyword == "addrichmenu")
             {
                 // Create Rich Menu
                 RichMenu richMenu = new RichMenu()
@@ -268,7 +262,7 @@ namespace LINE_Webhook
 
                 replyMessage = new TextMessage("Rich menu added");
             }
-            else if (userMessage == "deleterichmenu")
+            else if (keyword == "deleterichmenu")
             {
                 // Get Rich Menu for the user
                 var richMenuId = await messagingClient.GetRichMenuIdOfUserAsync(userId);
@@ -276,7 +270,7 @@ namespace LINE_Webhook
                 await messagingClient.DeleteRichMenuAsync(richMenuId);
                 replyMessage = new TextMessage("Rich menu deleted");
             }
-            else if (userMessage == "deleteallrichmenu")
+            else if (keyword == "deleteallrichmenu")
             {
                 // Get Rich Menu for the user
                 var richMenuList = await messagingClient.GetRichMenuListAsync();
@@ -290,42 +284,9 @@ namespace LINE_Webhook
             {
                 replyMessage = new TextMessage(userMessage);
             }
-            //var channel = new ZortServices.LineIntegrationModel();
-            //await messagingClient.ReplyMessageAsync(replyToken, new List<ISendMessage> { replyMessage });
-            using(ZortServices.LineAtServiceClient zort = new ZortServices.LineAtServiceClient())
-            {
-                await zort.AddMessageAsync(userId, "", userMessage, replyToken, null);
-            }
-        }
+            #endregion
 
-        /// <summary>
-        /// Upload the received data to blob and returns the address
-        /// </summary>
-        private async Task HandleMediaAsync(string replyToken, string userId, string messageId, string mediaType, string path)
-        {
-            var stream = await messagingClient.GetContentStreamAsync(messageId);
-            var ext = GetFileExtension(stream.ContentHeaders.ContentType.MediaType);
-            var uri = await blobStorage.UploadFromStreamAsync(stream, path, messageId + ext);
-
-            //await messagingClient.ReplyMessageAsync(replyToken, uri.ToString());
-            using (ZortServices.LineAtServiceClient zort = new ZortServices.LineAtServiceClient())
-            {
-                await zort.AddMessage_PictureAsync(userId, "", mediaType , uri.ToString(), replyToken, null);
-            }
-        }
-
-        /// <summary>
-        /// Reply the location user send.
-        /// </summary>
-        private async Task HandleLocationAsync(string replyToken, string userId, LocationEventMessage location)
-        {
-            //await messagingClient.ReplyMessageAsync(replyToken, new[] {
-            //            new LocationMessage("Location", location.Address, location.Latitude, location.Longitude)
-            //        });
-            using (ZortServices.LineAtServiceClient zort = new ZortServices.LineAtServiceClient())
-            {
-                await zort.AddMessage_LocationAsync(userId, "", location.Address, location.Latitude.ToString(), location.Longitude.ToString(), replyToken, null);
-            }
+            await messagingClient.ReplyMessageAsync(ev.ReplyToken, new List<ISendMessage> { replyMessage });
         }
 
         /// <summary>

@@ -18,18 +18,20 @@
   <xs:element name="SaveEventsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="SaveEventsResult" type="xs:decimal" />
+        <xs:element minOccurs="0" name="SaveEventsResult" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RegisterMerchant">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="channelId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="zortId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="merchantName" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="channelSecret" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="channelAccessToken" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="descriptions" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="remark" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

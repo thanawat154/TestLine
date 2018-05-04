@@ -159,16 +159,16 @@ namespace LINE_Webhook.LineServices {
     public interface IService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SaveEvents", ReplyAction="http://tempuri.org/IService/SaveEventsResponse")]
-        decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
+        long SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SaveEvents", ReplyAction="http://tempuri.org/IService/SaveEventsResponse")]
-        System.Threading.Tasks.Task<decimal> SaveEventsAsync(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
+        System.Threading.Tasks.Task<long> SaveEventsAsync(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RegisterMerchant", ReplyAction="http://tempuri.org/IService/RegisterMerchantResponse")]
-        bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions);
+        bool RegisterMerchant(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/RegisterMerchant", ReplyAction="http://tempuri.org/IService/RegisterMerchantResponse")]
-        System.Threading.Tasks.Task<bool> RegisterMerchantAsync(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions);
+        System.Threading.Tasks.Task<bool> RegisterMerchantAsync(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetMerchant", ReplyAction="http://tempuri.org/IService/GetMerchantResponse")]
         LINE_Webhook.LineServices.Merchant GetMerchant(string channelId, string zortId);
@@ -204,20 +204,20 @@ namespace LINE_Webhook.LineServices {
                 base(binding, remoteAddress) {
         }
         
-        public decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
+        public long SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
             return base.Channel.SaveEvents(channelId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
         }
         
-        public System.Threading.Tasks.Task<decimal> SaveEventsAsync(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
+        public System.Threading.Tasks.Task<long> SaveEventsAsync(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken) {
             return base.Channel.SaveEventsAsync(channelId, eventType, sourceType, sourceId, sender, messageType, messageText, replyToken);
         }
         
-        public bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions) {
-            return base.Channel.RegisterMerchant(merchantId, channelId, channelSecret, channelAccessToken, descriptions);
+        public bool RegisterMerchant(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark) {
+            return base.Channel.RegisterMerchant(channelId, zortId, userId, merchantName, channelSecret, channelAccessToken, remark);
         }
         
-        public System.Threading.Tasks.Task<bool> RegisterMerchantAsync(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions) {
-            return base.Channel.RegisterMerchantAsync(merchantId, channelId, channelSecret, channelAccessToken, descriptions);
+        public System.Threading.Tasks.Task<bool> RegisterMerchantAsync(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark) {
+            return base.Channel.RegisterMerchantAsync(channelId, zortId, userId, merchantName, channelSecret, channelAccessToken, remark);
         }
         
         public LINE_Webhook.LineServices.Merchant GetMerchant(string channelId, string zortId) {

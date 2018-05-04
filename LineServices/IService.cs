@@ -14,13 +14,13 @@ namespace LineServices
     {
 
         [OperationContract]
-        decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
+        long SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken);
 
         //[OperationContract]
         //List<Friends> GetChats(string channelId);
 
         [OperationContract]
-        bool RegisterMerchant(string merchantId, string channelId, string channelSecret, string channelAccessToken, string descriptions);
+        bool RegisterMerchant(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark);
 
         [OperationContract]
         Merchant GetMerchant(string channelId, string zortId);

@@ -15,7 +15,7 @@ namespace LineServices.Context
         public LineContext() : base() { }
         public LineContext(String connectionString) : base(connectionString) { }
 
-        public decimal SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
+        public long SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
         {
 
             ////EncryptURLContext EncryptURL = new EncryptURLContext();
@@ -42,7 +42,7 @@ namespace LineServices.Context
             //ws_InsertAuditLogins @TCO, @Password, @ipaddress, @ipaddress2, @_Status,@recordURL , @StaffLoginFlag,  @StaffID, @BrowserType, @_SuccessFlag, @AuditID output, @Referrer, @ASPSessionID
             this.Database.ExecuteSqlCommand("sp_InsertEvents @ChannelId,@EventType,@SourceType,@SourceId,@Sender,@MessageType,@MessageText,@ReplyToken,@Result out", para);
 
-            return !string.IsNullOrEmpty(para[8].Value.ToString()) ? Convert.ToDecimal(para[8].Value) : 0;
+            return !string.IsNullOrEmpty(para[8].Value.ToString()) ? Convert.ToInt64(para[8].Value) : 0;
         }
 
         //public List<Friends> GetChats(string channelId)
@@ -55,33 +55,38 @@ namespace LineServices.Context
         //    return list;
         //}
 
-        public bool RegisterMerchant(string channelId, string zortId, string userId, string merchantName, string channelAccessToken, string remark)
+        public bool RegisterMerchant(string channelId, string zortId, string userId, string merchantName, string channelSecret, string channelAccessToken, string remark)
         {
             SqlParameter[] para = new SqlParameter[9];
             para[0] = new SqlParameter("ChannelId", channelId);
             para[1] = new SqlParameter("ZortId", zortId);
             para[2] = new SqlParameter("UserId", userId);
             para[3] = new SqlParameter("MerchantName", merchantName);
-            para[4] = new SqlParameter("ChannelAccessToken", channelAccessToken);
-            para[5] = new SqlParameter("Remark", remark);
-            para[6] = new SqlParameter("Result", 0);
+            para[4] = new SqlParameter("ChannelSecret", channelSecret);
+            para[5] = new SqlParameter("ChannelAccessToken", channelAccessToken);
+            para[6] = new SqlParameter("Remark", remark);
+            para[7] = new SqlParameter("Result", 0);
 
             para[7].Direction = ParameterDirection.Output;
 
-            this.Database.ExecuteSqlCommand("sp_RegisterMerchant @ChannelId,@ZortId,@UserId,@MerchantName,@ChannelAccessToken,@Remark,@Result out", para);
+            this.Database.ExecuteSqlCommand("sp_RegisterMerchant @ChannelId,@ZortId,@UserId,@MerchantName,@ChannelSecret,@ChannelAccessToken,@Remark,@Result out", para);
 
-            var result = !string.IsNullOrEmpty(para[7].Value.ToString()) ? Convert.ToInt16(para[7].Value) : 0;
+            var result = !string.IsNullOrEmpty(para[8].Value.ToString()) ? Convert.ToInt16(para[7].Value) : 0;
 
             return result > 0;
         }
 
         public Merchant GetMerchant(string channelId, string zortId)
         {
-            SqlParameter[] para = new SqlParameter[9];
+            SqlParameter[] para = new SqlParameter[2];
             para[0] = new SqlParameter("ChannelId", channelId);
             para[1] = new SqlParameter("ZortId", zortId);
 
-            return this.Database.SqlQuery<Merchant>("sp_GetMerchant @ChannelId,@ZortId", para).FirstOrDefault();
+            List<Merchant> list = this.Database.SqlQuery<Merchant>("sp_GetMerchant @ChannelId,@ZortId", para).ToList<Merchant>();
+            if (list.Count > 0)
+                return list[0];
+
+            return new Merchant();
         }
     }
 }
