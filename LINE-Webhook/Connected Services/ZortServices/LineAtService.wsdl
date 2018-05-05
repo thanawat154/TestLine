@@ -62,6 +62,12 @@
   <wsdl:message name="ILineAtService_AddMessage_Location_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddMessage_LocationResponse" />
   </wsdl:message>
+  <wsdl:message name="ILineAtService_InsertLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertLog" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_InsertLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertLogResponse" />
+  </wsdl:message>
   <wsdl:portType name="ILineAtService">
     <wsdl:operation name="FollowFriend">
       <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/FollowFriend" message="tns:ILineAtService_FollowFriend_InputMessage" />
@@ -82,6 +88,10 @@
     <wsdl:operation name="AddMessage_Location">
       <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_Location" message="tns:ILineAtService_AddMessage_Location_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_LocationResponse" message="tns:ILineAtService_AddMessage_Location_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/InsertLog" message="tns:ILineAtService_InsertLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/InsertLogResponse" message="tns:ILineAtService_InsertLog_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ILineAtService" type="tns:ILineAtService">
@@ -131,6 +141,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="InsertLog">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/InsertLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="BasicHttpsBinding_ILineAtService" type="tns:ILineAtService">
     <wsp:PolicyReference URI="#BasicHttpsBinding_ILineAtService_policy" />
@@ -173,6 +192,15 @@
     </wsdl:operation>
     <wsdl:operation name="AddMessage_Location">
       <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Location" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertLog">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/InsertLog" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

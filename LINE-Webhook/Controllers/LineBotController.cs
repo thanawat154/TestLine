@@ -33,6 +33,7 @@ namespace LINE_Webhook.Controllers
         public async Task<HttpResponseMessage> WebHook(string merchantId, string channelId, HttpRequestMessage request)
         {
             var mer = new LineServices.Merchant();
+
             using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
             {
                 mer = await ws.GetMerchantAsync(channelId, merchantId);
@@ -46,9 +47,9 @@ namespace LINE_Webhook.Controllers
                 //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
                 var client = new LineMessagingClient(mer.ChannelAccessToken);
                 var merInfo = new LineIntegrationModel {
-                    channel_id = mer.ChannelId//,
-                    //channel_secret = mer.ChannelSecret,
-                    //channel_accesstoken = mer.ChannelAccessToken
+                    channel_id = mer.ChannelId,
+                    channel_secret = mer.ChannelSecret,
+                    channel_accesstoken = mer.ChannelAccessToken
                 };
 
                 var app = new LineBotApp(merInfo, client, blobStorage);

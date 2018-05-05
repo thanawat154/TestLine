@@ -165,6 +165,12 @@ namespace LINE_Webhook.ZortServices {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddMessage_Location", ReplyAction="http://tempuri.org/ILineAtService/AddMessage_LocationResponse")]
         System.Threading.Tasks.Task<string> AddMessage_LocationAsync(string uid, string name, string msg, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/InsertLog", ReplyAction="http://tempuri.org/ILineAtService/InsertLogResponse")]
+        string InsertLog(string msg);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/InsertLog", ReplyAction="http://tempuri.org/ILineAtService/InsertLogResponse")]
+        System.Threading.Tasks.Task<string> InsertLogAsync(string msg);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -232,6 +238,14 @@ namespace LINE_Webhook.ZortServices {
         
         public System.Threading.Tasks.Task<string> AddMessage_LocationAsync(string uid, string name, string msg, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
             return base.Channel.AddMessage_LocationAsync(uid, name, msg, lat, lng, reply_token, channel);
+        }
+        
+        public string InsertLog(string msg) {
+            return base.Channel.InsertLog(msg);
+        }
+        
+        public System.Threading.Tasks.Task<string> InsertLogAsync(string msg) {
+            return base.Channel.InsertLogAsync(msg);
         }
     }
 }

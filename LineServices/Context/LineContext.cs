@@ -17,13 +17,6 @@ namespace LineServices.Context
 
         public long SaveEvents(string channelId, string eventType, string sourceType, string sourceId, string sender, string messageType, string messageText, string replyToken)
         {
-
-            ////EncryptURLContext EncryptURL = new EncryptURLContext();
-            //String password = string.Empty;
-            //using (Encryption.Coding encryption = new Encryption.Coding())
-            //{
-            //    password = encryption.Encrypt(entity.Password);
-            //}
             SqlParameter[] para = new SqlParameter[9];
             para[0] = new SqlParameter("ChannelId", channelId);
             para[1] = new SqlParameter("EventType", eventType);
@@ -33,14 +26,11 @@ namespace LineServices.Context
             para[5] = new SqlParameter("MessageType", messageType);
             para[6] = new SqlParameter("MessageText", messageText);
             para[7] = new SqlParameter("ReplyToken", replyToken);
-            para[8] = new SqlParameter("Result", 0);
+            para[8] = new SqlParameter("EventID", 0);
 
             para[8].Direction = ParameterDirection.Output;
 
-            //auditIDParameter.Direction = System.Data.ParameterDirection.Output;
-
-            //ws_InsertAuditLogins @TCO, @Password, @ipaddress, @ipaddress2, @_Status,@recordURL , @StaffLoginFlag,  @StaffID, @BrowserType, @_SuccessFlag, @AuditID output, @Referrer, @ASPSessionID
-            this.Database.ExecuteSqlCommand("sp_InsertEvents @ChannelId,@EventType,@SourceType,@SourceId,@Sender,@MessageType,@MessageText,@ReplyToken,@Result out", para);
+            this.Database.ExecuteSqlCommand("sp_InsertEvents @ChannelId,@EventType,@SourceType,@SourceId,@Sender,@MessageType,@MessageText,@ReplyToken,@EventID out", para);
 
             return !string.IsNullOrEmpty(para[8].Value.ToString()) ? Convert.ToInt64(para[8].Value) : 0;
         }
