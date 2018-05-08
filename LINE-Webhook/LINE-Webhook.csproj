@@ -215,6 +215,7 @@
     <Compile Include="Class\Json.cs" />
     <Compile Include="Class\LineBotApp.cs" />
     <Compile Include="Class\LineChat.cs" />
+    <Compile Include="Class\Messaging.cs" />
     <Compile Include="Class\Reply.cs" />
     <Compile Include="Class\Signature.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
