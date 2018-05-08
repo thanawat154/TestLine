@@ -50,17 +50,23 @@
   <wsdl:message name="ILineAtService_AddMessage_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddMessageResponse" />
   </wsdl:message>
-  <wsdl:message name="ILineAtService_AddMessage_Picture_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddMessage_Picture" />
+  <wsdl:message name="ILineAtService_AddPicture_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddPicture" />
   </wsdl:message>
-  <wsdl:message name="ILineAtService_AddMessage_Picture_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddMessage_PictureResponse" />
+  <wsdl:message name="ILineAtService_AddPicture_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddPictureResponse" />
   </wsdl:message>
-  <wsdl:message name="ILineAtService_AddMessage_Location_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddMessage_Location" />
+  <wsdl:message name="ILineAtService_AddLocation_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddLocation" />
   </wsdl:message>
-  <wsdl:message name="ILineAtService_AddMessage_Location_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddMessage_LocationResponse" />
+  <wsdl:message name="ILineAtService_AddLocation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddLocationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddSticker_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddSticker" />
+  </wsdl:message>
+  <wsdl:message name="ILineAtService_AddSticker_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddStickerResponse" />
   </wsdl:message>
   <wsdl:message name="ILineAtService_InsertLog_InputMessage">
     <wsdl:part name="parameters" element="tns:InsertLog" />
@@ -81,13 +87,17 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage" message="tns:ILineAtService_AddMessage_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessageResponse" message="tns:ILineAtService_AddMessage_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="AddMessage_Picture">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_Picture" message="tns:ILineAtService_AddMessage_Picture_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_PictureResponse" message="tns:ILineAtService_AddMessage_Picture_OutputMessage" />
+    <wsdl:operation name="AddPicture">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddPicture" message="tns:ILineAtService_AddPicture_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddPictureResponse" message="tns:ILineAtService_AddPicture_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="AddMessage_Location">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_Location" message="tns:ILineAtService_AddMessage_Location_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddMessage_LocationResponse" message="tns:ILineAtService_AddMessage_Location_OutputMessage" />
+    <wsdl:operation name="AddLocation">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddLocation" message="tns:ILineAtService_AddLocation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddLocationResponse" message="tns:ILineAtService_AddLocation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSticker">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/AddSticker" message="tns:ILineAtService_AddSticker_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILineAtService/AddStickerResponse" message="tns:ILineAtService_AddSticker_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="InsertLog">
       <wsdl:input wsaw:Action="http://tempuri.org/ILineAtService/InsertLog" message="tns:ILineAtService_InsertLog_InputMessage" />
@@ -123,8 +133,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="AddMessage_Picture">
-      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Picture" style="document" />
+    <wsdl:operation name="AddPicture">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddPicture" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -132,8 +142,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="AddMessage_Location">
-      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Location" style="document" />
+    <wsdl:operation name="AddLocation">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddLocation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSticker">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddSticker" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -181,8 +200,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="AddMessage_Picture">
-      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Picture" style="document" />
+    <wsdl:operation name="AddPicture">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddPicture" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -190,8 +209,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="AddMessage_Location">
-      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddMessage_Location" style="document" />
+    <wsdl:operation name="AddLocation">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddLocation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSticker">
+      <soap:operation soapAction="http://tempuri.org/ILineAtService/AddSticker" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

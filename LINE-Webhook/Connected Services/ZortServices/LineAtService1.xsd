@@ -50,11 +50,11 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddMessage_Picture">
+  <xs:element name="AddPicture">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="uid" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="displayname" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="msg" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="imageurl" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="reply_token" nillable="true" type="xs:string" />
@@ -62,18 +62,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddMessage_PictureResponse">
+  <xs:element name="AddPictureResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="AddMessage_PictureResult" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="AddPictureResult" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddMessage_Location">
+  <xs:element name="AddLocation">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="uid" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="displayname" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="msg" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="lat" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="lng" nillable="true" type="xs:string" />
@@ -82,10 +82,30 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddMessage_LocationResponse">
+  <xs:element name="AddLocationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="AddMessage_LocationResult" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="AddLocationResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddSticker">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="uid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="displayname" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="msg" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="packageid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="stickerid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="reply_token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ZortService" minOccurs="0" name="channel" nillable="true" type="q6:LineIntegrationModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddStickerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddStickerResult" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

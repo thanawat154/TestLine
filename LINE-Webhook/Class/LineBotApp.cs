@@ -55,17 +55,18 @@ namespace LINE_Webhook
                         var stream = await messagingClient.GetContentStreamAsync(ev.Message.Id);
                         var ext = GetFileExtension(stream.ContentHeaders.ContentType.MediaType);
                         var uri = await blobStorage.UploadFromStreamAsync(stream, path, ev.Message.Id + ext);
-                        await zort.AddMessage_PictureAsync(ev.Source.UserId, uInfo.DisplayName, ev.Message.Type.ToString(), uri.ToString(), ev.ReplyToken, merInfo);
+                        await zort.AddPictureAsync(ev.Source.UserId, uInfo.DisplayName, ev.Message.Type.ToString(), uri.ToString(), ev.ReplyToken, merInfo);
                         //await messagingClient.ReplyMessageAsync(ev.ReplyToken, new List<ISendMessage> { new TextMessage(uri.ToString()) });
                         break;
                     case EventMessageType.Location:
                         var location = ((LocationEventMessage)ev.Message);
-                        await zort.AddMessage_LocationAsync(ev.Source.UserId, uInfo.DisplayName, location.Address, location.Latitude.ToString(), location.Longitude.ToString(), ev.ReplyToken, merInfo);
+                        await zort.AddLocationAsync(ev.Source.UserId, uInfo.DisplayName, location.Address, location.Latitude.ToString(), location.Longitude.ToString(), ev.ReplyToken, merInfo);
                         //await HandleLocationAsync(ev.ReplyToken, ev.Source.UserId, location);
                         break;
                     case EventMessageType.Sticker:
                         var sticker = (StickerEventMessage)ev.Message;
-                        await HandleStickerAsync(ev.ReplyToken, ev.Source.UserId, sticker);
+                        await zort.AddStickerAsync(ev.Source.UserId, uInfo.DisplayName, "Sticker",sticker.PackageId, sticker.StickerId, ev.ReplyToken, merInfo);
+                        //await HandleStickerAsync(ev.ReplyToken, ev.Source.UserId, sticker);
                         break;
                 }
             }
