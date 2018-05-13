@@ -43,7 +43,7 @@ namespace LINE_Webhook.Controllers
             {
                 var events = await request.GetWebhookEventsAsync(mer.ChannelSecret);
                 var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
-                var blobStorage = await BlobStorage.CreateAsync(connectionString, "linecontainer");
+                var blobStorage = await BlobStorage.CreateAsync(connectionString, mer.ChannelId);
                 //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
                 var client = new LineMessagingClient(mer.ChannelAccessToken);
                 var merInfo = new LineIntegrationModel {
@@ -64,6 +64,40 @@ namespace LINE_Webhook.Controllers
             }
         }
 
+        //public async Task<HttpResponseMessage> SendMessageAsync(string merchantId, string channelId, HttpRequestMessage request)
+        //{
+        //    var mer = new LineServices.Merchant();
+
+        //    using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
+        //    {
+        //        mer = await ws.GetMerchantAsync(channelId, merchantId);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(mer.ChannelId) && !string.IsNullOrEmpty(mer.ZortId) && !string.IsNullOrEmpty(mer.ChannelSecret) && !string.IsNullOrEmpty(mer.ChannelAccessToken))
+        //    {
+        //        var events = await request.GetWebhookEventsAsync(mer.ChannelSecret);
+        //        var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+        //        var blobStorage = await BlobStorage.CreateAsync(connectionString, mer.ChannelId);
+        //        //var eventSourceState = await TableStorage<EventSourceState>.CreateAsync(connectionString, "eventsourcestate");
+        //        var client = new LineMessagingClient(mer.ChannelAccessToken);
+        //        var merInfo = new LineIntegrationModel
+        //        {
+        //            channel_id = mer.ChannelId,
+        //            channel_secret = mer.ChannelSecret,
+        //            channel_accesstoken = mer.ChannelAccessToken
+        //        };
+
+        //        var app = new LineChat(merInfo, client, blobStorage);
+        //        await app.RunAsync(events);
+
+        //        return Request.CreateResponse(HttpStatusCode.OK);
+        //    }
+        //    else
+        //    {
+        //        Logger.LogError("Invalid merchant info!: ChannelId=" + mer.ChannelId);
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest);
+        //    }
+        //}
         ////[ResponseType(typeof(string))]
         ////[HttpPost]
         //public async Task<HttpResponseMessage> GetFriends()

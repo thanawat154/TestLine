@@ -149,28 +149,28 @@ namespace LINE_Webhook.ZortServices {
         System.Threading.Tasks.Task<string> UnFollowFriendAsync(string uid, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddMessage", ReplyAction="http://tempuri.org/ILineAtService/AddMessageResponse")]
-        string AddMessage(string uid, string displayname, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        string AddMessage(string uid, string displayname, string profileurl, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddMessage", ReplyAction="http://tempuri.org/ILineAtService/AddMessageResponse")]
-        System.Threading.Tasks.Task<string> AddMessageAsync(string uid, string displayname, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        System.Threading.Tasks.Task<string> AddMessageAsync(string uid, string displayname, string profileurl, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddPicture", ReplyAction="http://tempuri.org/ILineAtService/AddPictureResponse")]
-        string AddPicture(string uid, string displayname, string msg, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        string AddPicture(string uid, string displayname, string profileurl, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddPicture", ReplyAction="http://tempuri.org/ILineAtService/AddPictureResponse")]
-        System.Threading.Tasks.Task<string> AddPictureAsync(string uid, string displayname, string msg, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        System.Threading.Tasks.Task<string> AddPictureAsync(string uid, string displayname, string profileurl, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddLocation", ReplyAction="http://tempuri.org/ILineAtService/AddLocationResponse")]
-        string AddLocation(string uid, string displayname, string msg, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        string AddLocation(string uid, string displayname, string profileurl, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddLocation", ReplyAction="http://tempuri.org/ILineAtService/AddLocationResponse")]
-        System.Threading.Tasks.Task<string> AddLocationAsync(string uid, string displayname, string msg, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        System.Threading.Tasks.Task<string> AddLocationAsync(string uid, string displayname, string profileurl, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddSticker", ReplyAction="http://tempuri.org/ILineAtService/AddStickerResponse")]
-        string AddSticker(string uid, string displayname, string msg, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        string AddSticker(string uid, string displayname, string profileurl, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/AddSticker", ReplyAction="http://tempuri.org/ILineAtService/AddStickerResponse")]
-        System.Threading.Tasks.Task<string> AddStickerAsync(string uid, string displayname, string msg, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
+        System.Threading.Tasks.Task<string> AddStickerAsync(string uid, string displayname, string profileurl, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILineAtService/InsertLog", ReplyAction="http://tempuri.org/ILineAtService/InsertLogResponse")]
         string InsertLog(string msg);
@@ -222,36 +222,36 @@ namespace LINE_Webhook.ZortServices {
             return base.Channel.UnFollowFriendAsync(uid, channel);
         }
         
-        public string AddMessage(string uid, string displayname, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddMessage(uid, displayname, msg, reply_token, channel);
+        public string AddMessage(string uid, string displayname, string profileurl, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddMessage(uid, displayname, profileurl, msg, reply_token, channel);
         }
         
-        public System.Threading.Tasks.Task<string> AddMessageAsync(string uid, string displayname, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddMessageAsync(uid, displayname, msg, reply_token, channel);
+        public System.Threading.Tasks.Task<string> AddMessageAsync(string uid, string displayname, string profileurl, string msg, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddMessageAsync(uid, displayname, profileurl, msg, reply_token, channel);
         }
         
-        public string AddPicture(string uid, string displayname, string msg, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddPicture(uid, displayname, msg, imageurl, reply_token, channel);
+        public string AddPicture(string uid, string displayname, string profileurl, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddPicture(uid, displayname, profileurl, imageurl, reply_token, channel);
         }
         
-        public System.Threading.Tasks.Task<string> AddPictureAsync(string uid, string displayname, string msg, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddPictureAsync(uid, displayname, msg, imageurl, reply_token, channel);
+        public System.Threading.Tasks.Task<string> AddPictureAsync(string uid, string displayname, string profileurl, string imageurl, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddPictureAsync(uid, displayname, profileurl, imageurl, reply_token, channel);
         }
         
-        public string AddLocation(string uid, string displayname, string msg, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddLocation(uid, displayname, msg, lat, lng, reply_token, channel);
+        public string AddLocation(string uid, string displayname, string profileurl, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddLocation(uid, displayname, profileurl, lat, lng, reply_token, channel);
         }
         
-        public System.Threading.Tasks.Task<string> AddLocationAsync(string uid, string displayname, string msg, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddLocationAsync(uid, displayname, msg, lat, lng, reply_token, channel);
+        public System.Threading.Tasks.Task<string> AddLocationAsync(string uid, string displayname, string profileurl, string lat, string lng, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddLocationAsync(uid, displayname, profileurl, lat, lng, reply_token, channel);
         }
         
-        public string AddSticker(string uid, string displayname, string msg, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddSticker(uid, displayname, msg, packageid, stickerid, reply_token, channel);
+        public string AddSticker(string uid, string displayname, string profileurl, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddSticker(uid, displayname, profileurl, packageid, stickerid, reply_token, channel);
         }
         
-        public System.Threading.Tasks.Task<string> AddStickerAsync(string uid, string displayname, string msg, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
-            return base.Channel.AddStickerAsync(uid, displayname, msg, packageid, stickerid, reply_token, channel);
+        public System.Threading.Tasks.Task<string> AddStickerAsync(string uid, string displayname, string profileurl, string packageid, string stickerid, string reply_token, LINE_Webhook.ZortServices.LineIntegrationModel channel) {
+            return base.Channel.AddStickerAsync(uid, displayname, profileurl, packageid, stickerid, reply_token, channel);
         }
         
         public string InsertLog(string msg) {

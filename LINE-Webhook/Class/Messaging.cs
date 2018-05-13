@@ -9,7 +9,7 @@ namespace LINE_Webhook.Class
 {
     public class Messaging
     {
-        public bool ReplyMessage(string channelId, string zortId, string replyToken, IList<ISendMessage> messages)
+        public async Task ReplyMessage(string channelId, string zortId, string replyToken, IList<ISendMessage> messages)
         {           
             var mer = new LineServices.Merchant();
             using (LineServices.ServiceClient ws = new LineServices.ServiceClient())
@@ -17,27 +17,23 @@ namespace LINE_Webhook.Class
                 mer = ws.GetMerchant(channelId, zortId);
             }
             var client = new LineMessagingClient(mer.ChannelAccessToken);
-
-            var task = Task.Factory.StartNew(() => client.ReplyMessageAsync(replyToken,messages));
-            task.Start();
-
-            return true;
+            await client.ReplyMessageAsync(replyToken,messages);            
         }
 
-        public void SendMessage(string channelId, string zortId, string replyToken, string msg)
+        public async Task SendMessage(string channelId, string zortId, string replyToken, string msg)
         {
             ISendMessage replyMessage = new TextMessage(msg);
-            ReplyMessage(channelId, zortId, replyToken, new List<ISendMessage> { replyMessage });
+            await ReplyMessage(channelId, zortId, replyToken, new List<ISendMessage> { replyMessage });
         }
-        public void SendLocation(string channelId, string zortId, string replyToken, string address, decimal latitude, decimal longitude)
+        public async Task SendLocation(string channelId, string zortId, string replyToken, string address, decimal latitude, decimal longitude)
         {
             ISendMessage replyMessage = new LocationMessage("Location", address,latitude, longitude);
-            ReplyMessage(channelId, zortId, replyToken, new List<ISendMessage> { replyMessage });
+            await ReplyMessage(channelId, zortId, replyToken, new List<ISendMessage> { replyMessage });
         }
-        public void SendSticker(string channelId, string zortId, string replyToken, string packageId, string stickerId)
+        public async Task SendSticker(string channelId, string zortId, string replyToken, string packageId, string stickerId)
         {
             ISendMessage replyMessage = new StickerMessage(packageId, stickerId);
-            ReplyMessage(channelId, zortId, replyToken, new List<ISendMessage> { replyMessage });
+            await ReplyMessage(channelId, zortId, replyToken, new List<ISendMessage> { replyMessage });
         }
     }
 }

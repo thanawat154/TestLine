@@ -211,13 +211,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\DAO.cs" />
-    <Compile Include="Class\Json.cs" />
-    <Compile Include="Class\LineBotApp.cs" />
-    <Compile Include="Class\LineChat.cs" />
-    <Compile Include="Class\Messaging.cs" />
-    <Compile Include="Class\Reply.cs" />
-    <Compile Include="Class\Signature.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -252,7 +245,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Class\DAO.cs" />
+    <Compile Include="Class\Json.cs" />
+    <Compile Include="Class\LineBotApp.cs" />
+    <Compile Include="Class\LineChat.cs" />
     <Compile Include="Class\Logger.cs" />
+    <Compile Include="Class\Messaging.cs" />
+    <Compile Include="Class\Reply.cs" />
+    <Compile Include="Class\Signature.cs" />
     <Compile Include="CloudStorage\BlobStorage.cs" />
     <Compile Include="CloudStorage\TableStorage.cs" />
     <Compile Include="Connected Services\LineServices\Reference.cs">
@@ -392,7 +392,7 @@
     <Content Include="Views\LineChat\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\bin\" />
     <Folder Include="Views\Webhook\" />
   </ItemGroup>
   <ItemGroup>
