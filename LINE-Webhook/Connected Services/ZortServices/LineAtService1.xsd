@@ -6,6 +6,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="uid" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="displayname" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="reply_token" nillable="true" type="xs:string" />
         <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ZortService" minOccurs="0" name="channel" nillable="true" type="q1:LineIntegrationModel" />
       </xs:sequence>
     </xs:complexType>
@@ -76,6 +77,7 @@
         <xs:element minOccurs="0" name="uid" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="displayname" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="profileurl" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="locationaddress" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="lat" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="lng" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="reply_token" nillable="true" type="xs:string" />

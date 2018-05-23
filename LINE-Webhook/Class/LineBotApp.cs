@@ -60,7 +60,7 @@ namespace LINE_Webhook
                         break;
                     case EventMessageType.Location:
                         var location = ((LocationEventMessage)ev.Message);
-                        await zort.AddLocationAsync(ev.Source.UserId, uInfo.DisplayName, uInfo.PictureUrl, location.Latitude.ToString(), location.Longitude.ToString(), ev.ReplyToken, merInfo);
+                        await zort.AddLocationAsync(ev.Source.UserId, uInfo.DisplayName, uInfo.PictureUrl,location.Address, location.Latitude.ToString(), location.Longitude.ToString(), ev.ReplyToken, merInfo);
                         //await HandleLocationAsync(ev.ReplyToken, ev.Source.UserId, location);
                         break;
                     case EventMessageType.Sticker:
